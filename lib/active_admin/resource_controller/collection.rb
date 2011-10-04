@@ -120,7 +120,11 @@ module ActiveAdmin
         end
 
         def paginate(chain)
-          chain.page(params[:page]).per(@per_page || active_admin_application.default_per_page)
+          if chain.class == Array
+            Kaminari.paginate_array(chain).page(params[:page]).per(@per_page || active_admin_application.default_per_page)
+          else
+            chain.page(params[:page]).per(@per_page || active_admin_application.default_per_page)
+          end
         end
       end
 
